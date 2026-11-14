@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { projects } from './data/projects.js';
 
 const videos = Array.from({ length: 12 }, (_, i) => `/assets/video-${String(i + 1).padStart(2, '0')}.mp4`);
 
@@ -43,34 +44,65 @@ const navigation = [
   ['Contact', '#contact'],
 ];
 
-const deliveryStages = [
+const topics = [
+  ['Digital products', 'Websites, apps and platforms'],
+  ['Project delivery', 'From brief to launch'],
+  ['Automation', 'Smarter everyday workflows'],
+  ['Systems integration', 'Technology that works together'],
+  ['Discovery & strategy', 'Clarity before you build'],
+  ['Custom engineering', 'Solutions shaped around you'],
+  ['Client projects', 'A selection of our work'],
+  ['Ongoing support', 'Built to keep getting better'],
+];
+
+const workSteps = [
   {
     number: '01',
-    title: 'Understand the need',
-    description: 'We listen, ask the right questions and get clear on the outcomes that matter to your business.',
-    tags: 'Discovery · Planning',
-    icon: 'compass',
+    title: 'Discover',
+    description: 'We listen closely, learn your context, and get aligned on the challenge and the outcome you need.',
+    detail: 'The right questions, first.',
   },
   {
     number: '02',
-    title: 'Shape the solution',
-    description: 'We turn requirements into a thoughtful plan, with the people, technology and milestones to match.',
-    tags: 'Strategy · Design',
-    icon: 'layers',
+    title: 'Plan',
+    description: 'Together, we shape a practical scope, assemble the right team, and agree on milestones and priorities.',
+    detail: 'A shared plan of action.',
   },
   {
     number: '03',
-    title: 'Build with care',
-    description: 'Our team works alongside yours to create, integrate and refine a solution ready for real use.',
-    tags: 'Engineering · Delivery',
-    icon: 'build',
+    title: 'Deliver',
+    description: 'We build in close collaboration, sharing progress and gathering feedback as the work takes shape.',
+    detail: 'Clear progress, together.',
   },
   {
     number: '04',
-    title: 'Keep it moving',
-    description: 'After launch, we help you support, improve and grow the work as your needs evolve.',
-    tags: 'Launch · Ongoing support',
-    icon: 'spark',
+    title: 'Support',
+    description: 'We help with launch, handover, and the next improvements as your needs and business evolve.',
+    detail: 'Ready for what comes next.',
+  },
+];
+
+const corePillars = [
+  {
+    number: '01',
+    category: 'Digital products',
+    title: 'Technology made useful.',
+    summary: 'Websites, applications and platforms designed around the people who use them.',
+    video: '/assets/video-02.mp4',
+  },
+  {
+    number: '02',
+    category: 'Connected operations',
+    title: 'Better ways to work.',
+    summary: 'Automation and integration shaped around your real business processes.',
+    video: '/assets/video-04.mp4',
+  },
+  {
+    number: '03',
+    category: 'Project delivery',
+    title: 'One team. Every step.',
+    summary: 'A collaborative partner from first requirements through launch and support.',
+    video: '/assets/video-06.mp4',
   },
 ];
 
@@ -78,14 +110,110 @@ function Arrow({ direction = 'right' }) {
   return <span aria-hidden="true" className={`arrow-glyph arrow-glyph--${direction}`}>{direction === 'left' ? '←' : '→'}</span>;
 }
 
-function StageIcon({ type }) {
-  const paths = {
-    compass: <><circle cx="12" cy="12" r="8.5" /><path d="m15.7 8.3-2.5 5-4.9 2.4 2.4-4.9 5-2.5Z" /></>,
-    layers: <><path d="m12 3 9 5-9 5-9-5 9-5Z" /><path d="m3 12 9 5 9-5M3 16l9 5 9-5" /></>,
-    build: <><path d="m14.5 6.5 3-3 3 3-3 3M13 8l-8.5 8.5a2.1 2.1 0 0 0 3 3L16 11" /><path d="m4.5 4.5 5 5M3 8l5-5" /></>,
-    spark: <><path d="m12 3 1.6 6.4L20 11l-6.4 1.6L12 19l-1.6-6.4L4 11l6.4-1.6L12 3Z" /><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z" /></>,
-  };
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[type]}</svg>;
+function ProjectCard({ project, index, isOpen, onToggle }) {
+  const mediaRef = React.useRef(null);
+  const detailsId = `project-details-${project.id}`;
+
+  useEffect(() => {
+    const video = mediaRef.current;
+    if (!video || !project.video || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    const startVideo = () => {
+      if (!video.src) {
+        video.src = project.video;
+        video.load();
+      }
+      video.play().catch(() => {});
+    };
+    const stopVideo = () => video.pause();
+
+    if (!('IntersectionObserver' in window)) {
+      startVideo();
+      return () => video.pause();
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) startVideo();
+      else stopVideo();
+    }, { threshold: 0.2 });
+    observer.observe(video);
+    return () => {
+      observer.disconnect();
+      video.pause();
+    };
+  }, [project.video]);
+
+  return (
+    <article className={`project-card${index === 0 ? ' project-card--featured' : ''}${isOpen ? ' project-card--open' : ''}`}>
+      <div className="project-card__media">
+        <video ref={mediaRef} muted loop playsInline preload="none" aria-hidden="true" />
+        <div className="project-card__wash" aria-hidden="true" />
+        <span className="project-card__category">{project.category}</span>
+        <span className="project-card__media-mark" aria-hidden="true"><Arrow /></span>
+        <span className="project-card__number">PROJECT {project.number}</span>
+      </div>
+      <div className="project-card__body">
+        <h3>{project.title}</h3>
+        <p>{project.summary}</p>
+        <div className="project-card__bottom">
+          <div className="project-card__scope">{project.scope?.join('  ·  ')}</div>
+          <button className="project-card__toggle" type="button" aria-expanded={isOpen} aria-controls={detailsId} onClick={onToggle}>
+            {isOpen ? 'Close summary' : 'Project summary'} <span aria-hidden="true">{isOpen ? '−' : '+'}</span>
+          </button>
+        </div>
+        {isOpen && (
+          <div className="project-card__details" id={detailsId}>
+            <div><span>Challenge</span><p>{project.challenge}</p></div>
+            <div><span>Delivery</span><p>{project.delivery}</p></div>
+            <div><span>Outcome</span><p>{project.outcome}</p></div>
+          </div>
+        )}
+      </div>
+    </article>
+  );
+}
+
+function CoreCard({ item }) {
+  const mediaRef = React.useRef(null);
+
+  useEffect(() => {
+    const video = mediaRef.current;
+    if (!video || !item.video || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const startVideo = () => {
+      if (!video.src) {
+        video.src = item.video;
+        video.load();
+      }
+      video.play().catch(() => {});
+    };
+    if (!('IntersectionObserver' in window)) {
+      startVideo();
+      return () => video.pause();
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) startVideo();
+      else video.pause();
+    }, { threshold: 0.15 });
+    observer.observe(video);
+    return () => {
+      observer.disconnect();
+      video.pause();
+    };
+  }, [item.video]);
+
+  return (
+    <a className="core-card" href="#what-we-do">
+      <video ref={mediaRef} className="core-card__video" muted loop playsInline preload="none" aria-hidden="true" />
+      <span className="core-card__veil" aria-hidden="true" />
+      <span className="core-card__number">{item.number}</span>
+      <span className="core-card__arrow" aria-hidden="true"><Arrow /></span>
+      <span className="core-card__content">
+        <span className="core-card__category">{item.category}</span>
+        <span className="core-card__title">{item.title}</span>
+        <span className="core-card__summary">{item.summary}</span>
+      </span>
+    </a>
+  );
 }
 
 export default function App() {
@@ -93,6 +221,7 @@ export default function App() {
   const [videoIndex, setVideoIndex] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [openProject, setOpenProject] = useState(null);
   const slide = slides[slideIndex];
 
   const changeSlide = (step) => {
@@ -118,8 +247,9 @@ export default function App() {
 
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Pro Saini home" onClick={() => setMenuOpen(false)}>
-          <span className="brand__mark" aria-hidden="true"><span /></span>
-          <span className="brand__name">PRO SAINI</span>
+          <span className="brand__logo-window">
+            <img className="brand__logo" src="/assets/prosaini-logo.jpeg" alt="Pro Saini" />
+          </span>
         </a>
 
         <nav className={`navigation${menuOpen ? ' navigation--open' : ''}`} aria-label="Main navigation">
@@ -164,30 +294,111 @@ export default function App() {
       <div className="scroll-cue"><span />Scroll to explore</div>
     </section>
 
-    <section id="what-we-do" className="delivery-section" aria-labelledby="delivery-title">
-      <div className="delivery-section__inner">
-        <div className="delivery-section__intro">
-          <div className="section-eyebrow"><span /> How we work</div>
-          <div className="delivery-section__heading">
-            <h2 id="delivery-title">A clear path from<br /><span>need to outcome.</span></h2>
-            <p>Every client and every challenge is different. We bring the right people around your requirements, then stay accountable through each step of delivery.</p>
+    <section id="what-we-do" className="topics-section" aria-labelledby="topics-title">
+      <div className="topics-section__inner">
+        <div className="topics-intro">
+          <div className="topics-intro__copy">
+            <div className="section-eyebrow"><span /> Pro Saini</div>
+            <h2 id="topics-title">A capable partner for<br />your most important work.</h2>
+            <p>We bring the right people and technology around your requirements. From a focused digital product to a complex, multi-stage project, we work alongside your team to deliver thoughtful solutions and lasting value.</p>
+          </div>
+          <div className="topics-intro__aside" aria-hidden="true">
+            <span className="topics-intro__orb"><span /></span>
+            <span className="topics-intro__aside-label">Built around<br />your business.</span>
           </div>
         </div>
 
-        <div className="delivery-grid">
-          {deliveryStages.map((stage) => (
-            <article className="delivery-card" key={stage.number}>
-              <div className="delivery-card__top"><span className="delivery-card__number">{stage.number}</span><span className="delivery-card__icon"><StageIcon type={stage.icon} /></span></div>
-              <h3>{stage.title}</h3>
-              <p>{stage.description}</p>
-              <div className="delivery-card__tags">{stage.tags}</div>
+        <div className="topics-heading">
+          <div>
+            <div className="section-eyebrow"><span /> Explore our capabilities</div>
+            <h3>Find your focus</h3>
+          </div>
+          <p>Whatever the challenge, let’s find the right way forward.</p>
+        </div>
+
+        <div className="topics-grid">
+          {topics.map(([title, subtitle], index) => (
+            <article className="topic-link" key={title}>
+              <span className="topic-link__index">0{index + 1}</span>
+              <span className="topic-link__copy"><span className="topic-link__title">{title}</span><span className="topic-link__subtitle">{subtitle}</span></span>
+              <span className="topic-link__arrow"><Arrow /></span>
             </article>
           ))}
         </div>
 
-        <div className="delivery-section__footer">
-          <span>One accountable team, from first conversation to what comes next.</span>
-          <a href="#contact">Tell us what you’re working on <Arrow /></a>
+        <div id="contact" className="topics-footer">
+          <span>Have a project in mind? We’d love to hear what you’re working on.</span>
+          <span className="topics-footer__note">Start a conversation <Arrow /></span>
+        </div>
+      </div>
+    </section>
+
+    <section className="core-section" aria-labelledby="core-title">
+      <div className="core-section__heading">
+        <div className="section-eyebrow"><span /> What we do</div>
+        <h2 id="core-title">The core of what we do</h2>
+        <p>Practical expertise, thoughtful technology, and delivery built around your business.</p>
+      </div>
+      <div className="core-grid">
+        {corePillars.map((item) => <CoreCard item={item} key={item.number} />)}
+      </div>
+    </section>
+
+    <section id="projects" className="projects-section" aria-labelledby="projects-title">
+      <div className="projects-section__inner">
+        <div className="projects-section__header">
+          <div>
+          <div className="section-eyebrow"><span /> Project stories</div>
+            <h2 id="projects-title">Different challenges.<br /><span>Thoughtful solutions.</span></h2>
+          </div>
+          <p>Each project has its own challenge, approach, and outcome. Explore a few of the stories behind the work.</p>
+        </div>
+
+        <div className="projects-grid">
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={index}
+              isOpen={openProject === project.id}
+              onToggle={() => setOpenProject((current) => current === project.id ? null : project.id)}
+            />
+          ))}
+        </div>
+
+        <div className="projects-section__footer">
+          <span>Your next project has its own story to tell.</span>
+          <a href="#contact">Let’s shape it together <Arrow /></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-we-work" className="process-section" aria-labelledby="process-title">
+      <div className="process-section__inner">
+        <div className="process-section__header">
+          <div>
+            <div className="section-eyebrow"><span /> How we work</div>
+            <h2 id="process-title">A clear process.<br /><span>Work that moves forward.</span></h2>
+          </div>
+          <p>Strong outcomes come from good collaboration. We keep the work transparent, the goals in view, and the right people involved at every stage.</p>
+        </div>
+
+        <div className="process-steps">
+          {workSteps.map((step) => (
+            <article className="process-step" key={step.number}>
+              <div className="process-step__marker"><span>{step.number}</span><i aria-hidden="true" /></div>
+              <div className="process-step__content">
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+                <div className="process-step__detail">{step.detail}</div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="process-section__footer">
+          <span>Every engagement is tailored to your goals, team, and timeline.</span>
+          <a href="#contact">Start a conversation <Arrow /></a>
         </div>
       </div>
     </section>

@@ -1,0 +1,40 @@
+// Add or edit project entries here. The project showcase renders this list automatically.
+// Replace the starter prompts with approved client details before publishing.
+export const projects = [
+  {
+    id: 'project-01',
+    number: '01',
+    category: 'Digital products',
+    title: 'Project title',
+    summary: 'Add a short summary of the digital product or platform, the need behind it, and the people it serves.',
+    challenge: 'Describe the business or customer challenge this project addressed.',
+    delivery: 'Summarize the product, experience, or technology Pro Saini delivered.',
+    outcome: 'Add a verified result or key improvement when available.',
+    scope: ['Discovery', 'Product design', 'Development'],
+    video: '/assets/video-05.mp4',
+  },
+  {
+    id: 'project-02',
+    number: '02',
+    category: 'Connected operations',
+    title: 'Project title',
+    summary: 'Add a short summary of the operational need and how connected systems or automation can help.',
+    challenge: 'Describe the workflow, integration, or operational need this project addressed.',
+    delivery: 'Summarize the systems, integrations, or automation delivered for the client.',
+    outcome: 'Add a verified result such as time saved, fewer manual steps, or improved visibility.',
+    scope: ['Automation', 'Integration', 'Data'],
+    video: '/assets/video-08.mp4',
+  },
+  {
+    id: 'project-03',
+    number: '03',
+    category: 'End-to-end delivery',
+    title: 'Project title',
+    summary: 'Add a short summary of a project taken from the initial brief through launch and support.',
+    challenge: 'Describe the client goal, constraints, and what made this project important.',
+    delivery: 'Summarize how the work was planned, built, integrated, and launched.',
+    outcome: 'Add a verified business outcome or the lasting value delivered.',
+    scope: ['Planning', 'Delivery', 'Support'],
+    video: '/assets/video-11.mp4',
+  },
+];

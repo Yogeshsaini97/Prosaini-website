@@ -43,8 +43,49 @@ const navigation = [
   ['Contact', '#contact'],
 ];
 
+const deliveryStages = [
+  {
+    number: '01',
+    title: 'Understand the need',
+    description: 'We listen, ask the right questions and get clear on the outcomes that matter to your business.',
+    tags: 'Discovery · Planning',
+    icon: 'compass',
+  },
+  {
+    number: '02',
+    title: 'Shape the solution',
+    description: 'We turn requirements into a thoughtful plan, with the people, technology and milestones to match.',
+    tags: 'Strategy · Design',
+    icon: 'layers',
+  },
+  {
+    number: '03',
+    title: 'Build with care',
+    description: 'Our team works alongside yours to create, integrate and refine a solution ready for real use.',
+    tags: 'Engineering · Delivery',
+    icon: 'build',
+  },
+  {
+    number: '04',
+    title: 'Keep it moving',
+    description: 'After launch, we help you support, improve and grow the work as your needs evolve.',
+    tags: 'Launch · Ongoing support',
+    icon: 'spark',
+  },
+];
+
 function Arrow({ direction = 'right' }) {
   return <span aria-hidden="true" className={`arrow-glyph arrow-glyph--${direction}`}>{direction === 'left' ? '←' : '→'}</span>;
+}
+
+function StageIcon({ type }) {
+  const paths = {
+    compass: <><circle cx="12" cy="12" r="8.5" /><path d="m15.7 8.3-2.5 5-4.9 2.4 2.4-4.9 5-2.5Z" /></>,
+    layers: <><path d="m12 3 9 5-9 5-9-5 9-5Z" /><path d="m3 12 9 5 9-5M3 16l9 5 9-5" /></>,
+    build: <><path d="m14.5 6.5 3-3 3 3-3 3M13 8l-8.5 8.5a2.1 2.1 0 0 0 3 3L16 11" /><path d="m4.5 4.5 5 5M3 8l5-5" /></>,
+    spark: <><path d="m12 3 1.6 6.4L20 11l-6.4 1.6L12 19l-1.6-6.4L4 11l6.4-1.6L12 3Z" /><path d="m19 16 .7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z" /></>,
+  };
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[type]}</svg>;
 }
 
 export default function App() {
@@ -66,7 +107,8 @@ export default function App() {
   }, [paused]);
 
   return (
-    <main id="top" className="hero" aria-label="Pro Saini introduction">
+    <main>
+    <section id="top" className="hero" aria-label="Pro Saini introduction">
       <div className="hero__media" aria-hidden="true">
         <video key={videos[videoIndex]} className="hero__video" autoPlay muted loop playsInline preload="auto">
           <source src={videos[videoIndex]} type="video/mp4" />
@@ -120,6 +162,35 @@ export default function App() {
       </div>
 
       <div className="scroll-cue"><span />Scroll to explore</div>
+    </section>
+
+    <section id="what-we-do" className="delivery-section" aria-labelledby="delivery-title">
+      <div className="delivery-section__inner">
+        <div className="delivery-section__intro">
+          <div className="section-eyebrow"><span /> How we work</div>
+          <div className="delivery-section__heading">
+            <h2 id="delivery-title">A clear path from<br /><span>need to outcome.</span></h2>
+            <p>Every client and every challenge is different. We bring the right people around your requirements, then stay accountable through each step of delivery.</p>
+          </div>
+        </div>
+
+        <div className="delivery-grid">
+          {deliveryStages.map((stage) => (
+            <article className="delivery-card" key={stage.number}>
+              <div className="delivery-card__top"><span className="delivery-card__number">{stage.number}</span><span className="delivery-card__icon"><StageIcon type={stage.icon} /></span></div>
+              <h3>{stage.title}</h3>
+              <p>{stage.description}</p>
+              <div className="delivery-card__tags">{stage.tags}</div>
+            </article>
+          ))}
+        </div>
+
+        <div className="delivery-section__footer">
+          <span>One accountable team, from first conversation to what comes next.</span>
+          <a href="#contact">Tell us what you’re working on <Arrow /></a>
+        </div>
+      </div>
+    </section>
     </main>
   );
 }

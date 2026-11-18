@@ -4,7 +4,7 @@ import Arrow from './Arrow.jsx';
 
 function ServiceCard({ service, onOpen }) {
   return (
-    <article className="service-card">
+    <article id={`service-${service.id}`} className="service-card">
       <button className="service-card__image-button" type="button" onClick={() => onOpen(service)} aria-label={`View ${service.category} overview`}>
         <img src={service.image} alt={service.imageAlt} loading="lazy" />
         <span className="service-card__image-action">View overview <span aria-hidden="true">↗</span></span>

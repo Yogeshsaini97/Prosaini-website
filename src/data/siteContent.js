@@ -29,14 +29,6 @@ export const heroSlides = [
   },
 ];
 
-export const navigation = [
-  ['What we do', '#what-we-do'],
-  ['Services', '#services'],
-  ['Projects', '#projects'],
-  ['How we work', '#how-we-work'],
-  ['Contact', '#contact'],
-];
-
 export const topics = [
   ['PLC programming', 'Logic for machines and processes'],
   ['HMI solutions', 'Clear operator interfaces'],

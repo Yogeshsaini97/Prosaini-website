@@ -36,7 +36,7 @@ export default function ContactSection() {
         </div>
 
         <div className="contact-section__bottom">
-          <a className="contact-brand" href="#top" aria-label="Pro Saini, back to top">
+          <a className="contact-brand" href="/#top" aria-label="Pro Saini, back to top">
             <span className="brand__logo-window"><img className="brand__logo" src="/assets/prosaini-logo.jpeg" alt="Pro Saini" /></span>
             <span>Industrial Automation & Engineering</span>
           </a>

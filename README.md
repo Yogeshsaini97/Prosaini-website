@@ -12,6 +12,8 @@ npm run dev
 ## Project structure
 
 - `src/components/` contains the homepage sections and reusable cards.
+- `src/components/SiteHeader.jsx` contains the shared mega-menu navigation.
+- `src/components/InteriorPage.jsx` maps page URLs to their page content.
 - `src/data/siteContent.js` contains the hero slides, navigation, capability topics and process steps.
 - `src/data/services.js` contains the service cards and their supplied marketing visuals.
 - `src/data/projects.js` contains editable project stories.
@@ -19,6 +21,10 @@ npm run dev
 - `src/styles.css` contains responsive site and component styles.
 - `public/assets/marketing/` contains the supplied industrial videos and marketing images.
 - `src/App.jsx` assembles the page sections.
+
+## Pages
+
+The navigation opens dedicated URLs: `/services`, `/industries`, `/solutions`, `/projects`, `/about` and `/contact`. The app uses normal links and reads the current URL path to render each page. A production host must serve `index.html` for these paths so direct visits and refreshes work.
 
 ## Add a service
 

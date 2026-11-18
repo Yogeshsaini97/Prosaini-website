@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Arrow from './Arrow.jsx';
-import { heroSlides, navigation } from '../data/siteContent.js';
+import { heroSlides } from '../data/siteContent.js';
 
 const videos = Array.from({ length: 5 }, (_, i) => `/assets/marketing/industrial-${String(i + 1).padStart(2, '0')}.mp4`);
 
 export default function HeroSection() {
   const [slideIndex, setSlideIndex] = useState(0);
   const [videoIndex, setVideoIndex] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [paused, setPaused] = useState(false);
   const [readyVideo, setReadyVideo] = useState(null);
   const slide = heroSlides[slideIndex];
@@ -34,38 +33,13 @@ export default function HeroSection() {
       </div>
       <div className="hero__veil" aria-hidden="true" />
 
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="Pro Saini home" onClick={() => setMenuOpen(false)}>
-          <span className="brand__logo-window">
-            <img className="brand__logo" src="/assets/prosaini-logo.jpeg" alt="Pro Saini" />
-          </span>
-        </a>
-
-        <nav className={`navigation${menuOpen ? ' navigation--open' : ''}`} aria-label="Main navigation">
-          {navigation.map(([label, href]) => (
-            <a key={label} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
-          ))}
-        </nav>
-
-        <a className="header-cta" href="#contact">Start a project <Arrow /></a>
-        <button
-          className={`menu-toggle${menuOpen ? ' menu-toggle--open' : ''}`}
-          type="button"
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <span /><span />
-        </button>
-      </header>
-
       <section className="hero__content" key={slideIndex}>
         <div className="eyebrow"><span className="eyebrow__line" />{slide.kicker}</div>
         <h1>{slide.headline[0]}<br />{slide.headline[1]}</h1>
         <p className="hero__description">{slide.description}</p>
         <div className="hero__actions">
-          <a className="button button--outline" href="#what-we-do">Discover Pro Saini</a>
-          <a className="button button--primary" href="#projects">View our projects <Arrow /></a>
+          <a className="button button--outline" href="/solutions">Discover Pro Saini</a>
+          <a className="button button--primary" href="/projects">View our projects <Arrow /></a>
         </div>
       </section>
 

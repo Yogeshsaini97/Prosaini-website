@@ -9,9 +9,12 @@ export default function HeroSection() {
   const [videoIndex, setVideoIndex] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [readyVideo, setReadyVideo] = useState(null);
   const slide = heroSlides[slideIndex];
+  const activeVideo = videos[videoIndex];
 
   const changeSlide = (step) => {
+    setReadyVideo(null);
     setSlideIndex((current) => (current + step + heroSlides.length) % heroSlides.length);
     setVideoIndex((current) => (current + 1) % videos.length);
   };
@@ -25,8 +28,8 @@ export default function HeroSection() {
   return (
     <section id="top" className="hero" aria-label="Pro Saini introduction">
       <div className="hero__media" aria-hidden="true">
-        <video key={videos[videoIndex]} className="hero__video" autoPlay muted loop playsInline preload="auto">
-          <source src={videos[videoIndex]} type="video/mp4" />
+        <video key={activeVideo} className={`hero__video${readyVideo === activeVideo ? ' hero__video--ready' : ''}`} autoPlay muted loop playsInline preload="metadata" onCanPlay={() => setReadyVideo(activeVideo)}>
+          <source src={activeVideo} type="video/mp4" />
         </video>
       </div>
       <div className="hero__veil" aria-hidden="true" />

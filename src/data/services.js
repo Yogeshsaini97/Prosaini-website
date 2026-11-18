@@ -1,0 +1,38 @@
+export const services = [
+  {
+    id: 'automation-programming',
+    category: 'Control & programming',
+    title: 'Automation, built around your process.',
+    summary: 'PLC, HMI, CNC, AC drive and servo drive programming configured for your equipment and production needs.',
+    offerings: ['PLC & HMI programming', 'CNC and drive systems', 'Integration, testing & commissioning'],
+    image: '/assets/marketing/automation-programming.jpeg',
+    imageAlt: 'Pro Saini industrial automation programming overview',
+  },
+  {
+    id: 'scada-iot',
+    category: 'Monitoring & data',
+    title: 'Turn process data into visibility.',
+    summary: 'SCADA and industrial IoT solutions for real-time monitoring, data acquisition, alarms and reporting.',
+    offerings: ['SCADA development', 'Industrial IoT integration', 'Monitoring, alarms & reports'],
+    image: '/assets/marketing/scada-iot-services.jpeg',
+    imageAlt: 'Pro Saini SCADA and industrial IoT services overview',
+  },
+  {
+    id: 'control-panels',
+    category: 'Panel engineering',
+    title: 'Control panels made for the job.',
+    summary: 'Control and power panels designed, manufactured and tested around your application and site requirements.',
+    offerings: ['Control & power panels', 'Design & manufacturing', 'Testing & quality assurance'],
+    image: '/assets/marketing/control-power-panels.jpeg',
+    imageAlt: 'Pro Saini control and power panel manufacturing overview',
+  },
+  {
+    id: 'service-support',
+    category: 'Care & optimisation',
+    title: 'Keep your operation moving.',
+    summary: 'Practical support through breakdown response, AMC, electrical installation, calibration and optimisation.',
+    offerings: ['Breakdown & AMC services', 'Installation & calibration', 'EMS consulting & cost improvement'],
+    image: '/assets/marketing/service-support-optimisation.jpeg',
+    imageAlt: 'Pro Saini service, support and optimisation overview',
+  },
+];
